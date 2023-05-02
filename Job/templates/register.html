@@ -1,220 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <style>
-        
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
-.row{
-
-margin-left: 2%;
-margin-right: 2%;
-margin-top:5%;
-}
-.page{
-
-width: 100%;
-height:auto;
-min-height:100vh;
-background-color:#ede7e6;
-background-size: 100% 100%;
-background-position: top center;
-padding:10px;
-}
-
-.signintext{
-margin-right:20%!important;
-color:#969799;
-
-}
-
-.top{
-color: #64C97D;
-}
-
-.btn{
-width: 30%;
-margin-top:5%;
-margin-bottom: 5%;
-margin-left: 25%;
-
-}
-
-.ForgotPassBtn{
-background-color:white; 
-color:black;
-border-bottom: 1px solid #c7c5c5;
-padding-bottom: 3px;
-text-decoration: none!important;
-margin-right: 20%;
-border-top-color: none;
-
-}
-.LoginBtn{
-  border-radius: 25px;
-  background-image:url(http://i.imgur.com/S4zmPRw.png);
-  border:none;
-}
-
-
-
-.signupbtn{
-border-radius: 25px;
-width: 25%;
-margin:auto;
-background-image:url(http://i.imgur.com/S4zmPRw.png);
-border:solid 1px white;
-font-size: 10px;
-}
-
-form{
-padding: 0;
-margin-left: 15%;
-}
-
-.signin{
-background-color: white;
-padding: 2%;
-margin: auto;
-}
-
-.signup{
-  background-image:url(http://i.imgur.com/S4zmPRw.png);
-padding: 2%;
-}
-
-.form-control{
-width: 80%;
-margin-bottom: 5%;
-    margin-top: 5%;
-    background-color: #ebe8e8;
-
-}
-
-
-
-
-
-.custom-control{
-margin-bottom: 2%;
-} 
-
-h2.HelloFriend{
-color:#fff !important;
-font-weight:200px;
-margin-top:30%;
-margin-bottom:10%;
-}
-
-.SignupText{
-color:#fff;
-margin-bottom:15%;
-font-size:16px;
-font-weight: 10px!important;
-font-family: Garamond;
-}
-
-@media only screen and (max-width: 600px) {
-row{
-
-
-    margin-top: 5%;
-    margin-left: 1%;
-    margin-right: 1%;
-}    }
-
-input, input:focus{
-    border-width: 0px;
-    outline:0; 
-    -webkit-appearance:none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
-
-.social-btn .btn {
-    color: #fff;
-    margin: 8px 0 0 30px;
-    font-size: 15px;
-   width: 45px;
-height: 40px;
-line-height: 25px;
-    border-radius: 50%;
-    font-weight: normal;
-    text-align: center;
-    border: solid 0.5px grey;
-    transition: all 0.4s;
-}	
-.social-btn .btn:first-child {
-    margin-left: 0;
-}
-.social-btn .btn:hover {
-    opacity: 0.8;
-}
-
-.social-btn .btn i {
-    font-size: 20px;
-}
-
-.social-btn{
-margin-right: 20%;
-margin-bottom: 7%;
-margin-top: 5%;
-}
-    </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-<!--For all screen-->
-<div class="page">
 
+<nav class=" navbar navbar-expand-lg bg-primary navbar-light">
+  <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+      <h1 class="m-0 text-white">JobPortal</h1>
+  </a>
+</nav>
 
-    <!--Login & Signup in single row-->
-    <div class="row">
-    
-      
-    <!--Column for signin-->
-      <div class="col-sm-8 text-center signin">
-    
-    
-        <!-- Default form login -->
-        <form action="#!">
-          <p class="h4 mb-4 text-center signintext top"><strong>Sign in to this Website</strong></p>    
+<div class=" h-100">
+<div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="col-lg-12 col-xl-11">
+    <div class=" text-black" >
+      <div class="card-body ">
+        <div class="row justify-content-center">
+          <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+          <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-2 order-lg-1">
+
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+               alt="Sample image" width="100%" height="75%">
+
+          </div>
+
+          <div class="col-md-10 col-lg-6 col-xl-6 order-1 order-lg-2">
+            <form class="mx-1 mx-md-4" method="post" enctype="multipart/form-data">
+
+              {%csrf_token%}
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <input type="text" id="form3Example1c" class="form-control" name="first_name">
+                      <label class="form-label" for="form3Example1c">First Name</label>
+                    </div>
+                </div>
+                </div>
+  
+                <div class="col-6">
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <input type="text" id="form3Example1c" class="form-control" name="last_name">
+                      <label class="form-label" for="form3Example1c">Last Name</label>
+                    </div>
+                  </div>
+                </div>  
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                  <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                  <div class="form-outline flex-fill mb-0">
+                    <input type="text" id="form3Example3c" class="form-control" name="username">
+                    <label class="form-label" for="form3Example3c">Username</label>
+                  </div>
+                </div>
+
+              <div class="d-flex flex-row align-items-center mb-4">
+                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                <div class="form-outline flex-fill mb-0">
+                  <input type="email" id="form3Example3c" class="form-control" name="email">
+                  <label class="form-label" for="form3Example3c"> Email</label>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center mb-4">
+                <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                <div class="form-outline flex-fill mb-0">
+                  <input type="password" id="form3Example4c" class="form-control" name="password1">
+                  <label class="form-label" for="form3Example4c">Password</label>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center mb-4">
+                <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                <div class="form-outline flex-fill mb-0">
+                  <input type="password" id="form3Example4cd" class="form-control" name="password2">
+                  <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center mb-4">
+
+                <h6 class="mb-0 me-4 ms-3 ">Role: </h6>
+
+                <div class="form-check form-check-inline mb-0 me-4">
+                  <input class="form-check-input" type="radio" name="role" value="employer" id="employer"
+                    >
+                  <label class="form-check-label" for="employer">Employer</label>
+                </div>
+
+                <div class="form-check form-check-inline mb-0 me-4">
+                  <input class="form-check-input" type="radio" name="role" value="candidate" id="candidate"
+                    >
+                  <label class="form-check-label" for="candidate">Candidate</label>
+                </div>
+
+              </div>          
+
+              <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+              </div>
+
+              <div>
+                <p>Already a member ? <a href="{%url 'signin'%}">Login</a></p>
+              </div>
+            </form>
+
+          </div>
           
-          <input type="text" class="form-control mb-4"  placeholder="&#xf0e0; Email" style="font-family:Arial, FontAwesome">
-    
-          <!-- Password -->
-          <input type="password" class="form-control mb-4" placeholder="&#xf023;  Password" style="font-family:Arial, FontAwesome">
-    
-         
-    
-          <!-- Sign in button -->
-                <a class="ForgotPassBtn" href="" >Forgot Your Password?</a>
-          <button class="btn btn-info btn-block LoginBtn" type="submit" >SIGN IN</button>
-    
-    
-        </form>
-    
-      </div>
-    
-    <!--Column for signin-->
-      <div class="col-sm-4 signup text-center">
-        <h2 class="HelloFriend">Hello, Friend!</h2>
-        <h4 class="SignupText">Enter your personal details<br>and start journey with us</h4>
-        <button class="btn btn-info btn-block signupbtn" type="submit">SIGN UP</button>
-    
+        </div>
       </div>
     </div>
-    </div>
+  </div>
+</div>
+</div>
 </body>
 </html>

@@ -39,7 +39,7 @@ class SignUpView(CreateView):
 
 class SignInView(FormView):
     form_class=LoginForm
-    template_name="employer-index.html"
+    template_name="login.html"
 
     def post(self,request,*args,**kw):
         form=LoginForm(request.POST)
@@ -91,7 +91,7 @@ class CompanyProfileCreateView(CreateView):
 @method_decorator(employerdecs,name='dispatch')
 class CompanyProfileEditView(UpdateView):
     form_class=CompanyProfileForm
-    template_name='company-profilecreate.html'
+    template_name='companyprofile-update.html'
     model=CompanyProfile
     success_url=reverse_lazy('company-profile')
 
@@ -104,7 +104,7 @@ class JobAddView(CreateView):
     model=Job
     form_class=JobForm
     template_name='job-add.html'
-    success_url=reverse_lazy('employer-home')
+    success_url=reverse_lazy('myjob-list')
 
     def form_valid(self, form):
         company=CompanyProfile.objects.get(user=self.request.user)
@@ -115,8 +115,8 @@ class JobAddView(CreateView):
 class JobEditView(UpdateView):
     model=Job
     form_class=JobForm
-    template_name='job-add.html'
-    success_url=reverse_lazy('employer-home')
+    template_name='job-update.html'
+    success_url=reverse_lazy('myjob-list')
 
 @method_decorator(employerdecs,name='dispatch')
 class MyJobListView(ListView):
@@ -131,7 +131,7 @@ class MyJobListView(ListView):
 @method_decorator(employerdecs,name='dispatch')
 class JobDeleteView(View):
     def get(self,request,*args,**kwargs):
-        id=kwargs.get('pk')
+        id=kwargs.get('id')
         job=Job.objects.filter(id=id)
         Job.objects.filter(id=id).update(is_active=False)
         return redirect('myjob-list')
@@ -145,14 +145,26 @@ class ApplicationListView(ListView):
     def get_queryset(self):
         id=self.kwargs.get('id')
         job=Job.objects.get(id=id)
-        return Application.objects.filter(job=job,is_active=True,status='pending')
+        return Application.objects.filter(job=job,status='pending')
+    
+
+@method_decorator(employerdecs,name='dispatch')
+class AcceptedApplicationsListView(ListView):
+    model=Application
+    template_name='acceptedapplications-list.html'
+    context_object_name='apps'
+    
+    def get_queryset(self):
+        id=self.kwargs.get('id')
+        job=Job.objects.get(id=id)
+        return Application.objects.filter(job=job,status='accept')
 
 
 @method_decorator(employerdecs,name='dispatch') 
 class CandidateDetailsView(ListView):
     model=Application
     template_name='candidatedetails.html'
-    context_object_name='candidate'
+    context_object_name='apps'
 
     def get_queryset(self):
         id=self.kwargs.get('id')
@@ -163,8 +175,14 @@ class ApplicationAcceptView(View):
     def get(self,request,*args,**kwargs):
         id=kwargs.get('id')
         Application.objects.filter(id=id).update(status='accept')
-        return redirect('application-list')
+        return redirect('myjob-list')
     
+@method_decorator(employerdecs,name='dispatch')       
+class ApplicationRejectView(View):
+    def get(self,request,*args,**kwargs):
+        id=kwargs.get('id')
+        Application.objects.filter(id=id).update(is_active=False,status='reject')
+        return redirect('myjob-list')
 
 # CANDIDATE
 
@@ -209,7 +227,7 @@ class JobDetailView(ListView):
 
     def get_queryset(self):
         id=self.kwargs.get('id')
-        return Job.objects.get(id=id)
+        return Job.objects.filter(id=id)
 
 @method_decorator(candidatedecs,name='dispatch')
 class CandidateApplicationView(View):
@@ -224,7 +242,7 @@ class CandidateApplicationView(View):
 class ApplicationCancelView(View):
     def get(self,request,*args,**kwargs):
         id=kwargs.get('id')
-        Application.objects.filter(id=id).update(is_active=False)
+        Application.objects.filter(id=id).update(is_active=False,status='cancelled')
         return redirect('appliedjob-list')
 
 @method_decorator(candidatedecs,name='dispatch')
@@ -235,4 +253,31 @@ class AppliedJobListView(ListView):
     
     def get_queryset(self):
         candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
-        return Application.objects.filter(candidate=candidate,is_active=True)
+        return Application.objects.filter(candidate=candidate).exclude(status='cancelled')
+    
+class PendingJobListView(ListView):
+    model=Application
+    template_name='appliedjob-list.html'
+    context_object_name='apps'
+    
+    def get_queryset(self):
+        candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
+        return Application.objects.filter(candidate=candidate,status='pending')
+    
+class RejectedJobListView(ListView):
+    model=Application
+    template_name='appliedjob-list.html'
+    context_object_name='apps'
+    
+    def get_queryset(self):
+        candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
+        return Application.objects.filter(candidate=candidate,status='reject')
+    
+class AcceptedJobListView(ListView):
+    model=Application
+    template_name='appliedjob-list.html'
+    context_object_name='apps'
+    
+    def get_queryset(self):
+        candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
+        return Application.objects.filter(candidate=candidate,status='accept')
