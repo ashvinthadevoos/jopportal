@@ -11,6 +11,9 @@ class User(AbstractUser):
         ("employer","employer") 
       )
       role = models.CharField(max_length=200,choices=options)
+
+      def __str__(self) :
+          return self.first_name
     
  
 class CandidateProfile(models.Model):
