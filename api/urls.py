@@ -8,7 +8,7 @@ router.register("accounts/users",views.UsersView,basename="users")
 router.register("users/cantidateprofile",views.CandidateProfileView,basename="cantidateprofile")
 router.register("users/companyprofile",views.CompanyProfileView,basename="companyprofile")
 router.register("jobs",views.JobView,basename="jobs")
-# router.register("applications",views.ApplicationView,basename="applications")
+router.register("applications",views.ApplicationView,basename="applications")
 
 urlpatterns=[
     path("token/",ObtainAuthToken.as_view())

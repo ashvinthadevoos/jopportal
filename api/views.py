@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from api.serializers import UserSerializer,CandidateProfileSerializer,CompanyProfileSerializer,JobSerializer
+from api.serializers import UserSerializer,CandidateProfileSerializer,CompanyProfileSerializer,JobSerializer,ApplicationSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet,GenericViewSet,ModelViewSet
 from rest_framework.generics import GenericAPIView
@@ -26,7 +26,7 @@ class CandidateProfileView(ModelViewSet):
 
     def get_queryset(self):
         return CandidateProfile.objects.filter(user=self.request.user)
-
+    
         
 
 class CompanyProfileView(ModelViewSet):
@@ -56,12 +56,15 @@ class JobView(ModelViewSet):
         
     def update(self, request, *args, **kwargs):
         job=self.get_object()
-        company=CompanyProfile.objects.get(user=request.user)
-        if job.company == company:
-            return super().update(request, *args, **kwargs)
+        if self.request.user.role == 'employer':
+            company=CompanyProfile.objects.get(user=request.user)
+            if job.company == company:
+                return super().update(request, *args, **kwargs)
+            else:
+                raise serializers.ValidationError('not allowed to perform')
         else:
             raise serializers.ValidationError('not allowed to perform')
-        
+
     def get_queryset(self):
         if self.request.user.role == 'employer':
             company=CompanyProfile.objects.get(user=self.request.user)
@@ -74,7 +77,8 @@ class JobView(ModelViewSet):
         if request.user.role == 'employer':
             company=CompanyProfile.objects.get(user=request.user)
             if job.company == company:
-                return super().destroy(request,*args,**kwargs)
+                job.is_active=False
+                return Response('job deleted')
             else:
                 raise serializers.ValidationError('not allowed to perform')
         else:
@@ -90,24 +94,78 @@ class JobView(ModelViewSet):
         else:
             raise serializers.ValidationError('not allowed to perform')
         
-    @action(methods=['get'],detail=True)
-    def cancel_application(self,request,*args,**kwargs):
-        job=self.get_object()
-        if request.user.role == 'candidate':
-            candidate=CandidateProfile.objects.get(user=request.user)
-            Application.objects.filter(job=job,candidate=candidate).delete()
-            return Response('deleted')
-        else:
-            raise serializers.ValidationError('not allowed to perform')
 
     @action(methods=['get'],detail=True)
     def application_list(self,request,*args,**kwargs):
         job=self.get_object()
         if request.user.role == 'employer':
             qs=Application.objects.filter(job=job)
-            return Response(qs)
+            serializer=ApplicationSerializer(qs,many=True)
+            return Response(data=serializer.data)
         else:
             raise serializers.ValidationError('not allowed to perform')
 
 
 
+class ApplicationView(ModelViewSet):
+    serializer_class=ApplicationSerializer
+    queryset=Application.objects.all()
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        raise serializers.ValidationError('not allowed to perform')
+    
+    def update(self, request, *args, **kwargs):
+        return serializers.ValidationError('not allowed to perform')
+    
+    def list(self, request, *args, **kwargs):
+        if self.request.user.role == 'candidate':
+            cand=CandidateProfile.objects.get(user=self.request.user)
+            qs=Application.objects.filter(candidate=cand,is_active=True)
+            serializer=ApplicationSerializer(qs,many=True)
+            return Response(data=serializer.data)
+        else:
+            raise serializers.ValidationError('not allowed to perform')
+
+
+    def retrieve(self, request, *args, **kwargs):
+        app=self.get_object()
+        if request.user.role == 'candidate':
+            cand=CandidateProfile.objects.get(user=request.user)
+            if app.candidate == cand:
+                serializer=ApplicationSerializer(app,many=False)
+                return Response(data=serializer.data)
+            else:
+                raise serializers.ValidationError('not allowed to perform')
+        else:
+            comp=CompanyProfile.objects.get(user=request.user)
+            if app.job.company == comp and app.is_active == True:
+                serializer=ApplicationSerializer(app,many=False)
+                return Response(data=serializer.data)
+            else:
+                raise serializers.ValidationError('not allowed to perform')
+            
+    def destroy(self, request, *args, **kwargs):
+        if request.user.role == 'candidate':
+            app=self.get_object()
+            app.status='cancelled'
+            app.is_active=False
+            return Response('application cancelled')
+        else:
+            raise serializers.ValidationError('not allowed to perform')
+
+    @action(methods=['get'],detail=True)
+    def accept(self,request,*args,**kwargs):
+        app=self.get_object()
+        app.status='accept'
+        app.save()
+        return Response('accepted')
+    
+    @action(methods=['get'],detail=True)
+    def reject(self,request,*args,**kwargs):
+        app=self.get_object()
+        app.status='reject'
+        app.is_active=False
+        app.save()
+        return Response('rejected')

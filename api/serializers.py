@@ -20,7 +20,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
 
 class CompanyProfileSerializer(serializers.ModelSerializer):
     id=serializers.CharField(read_only=True)
-    user=UserSerializer(read_only=True)
+    user=serializers.CharField(read_only=True)
     class Meta:
         model=CompanyProfile
         fields='__all__'
@@ -37,9 +37,10 @@ class ApplicationSerializer(serializers.ModelSerializer):
     id=serializers.CharField(read_only=True)
     company=CompanyProfileSerializer(read_only=True)
     job=JobSerializer(read_only=True)
-    candidate=CandidateProfileSerializer(read_only=True)
+    # candidate=serializers.CharField(read_only=True)
     status=serializers.CharField(read_only=True)
     apply_date=serializers.CharField(read_only=True)
+    is_active=serializers.CharField(read_only=True)
     class Meta:
         model=Application
-        fields=["id","company","job","candidate","status","apply_date"]
+        fields=["id","company","job","status","apply_date",'is_active']

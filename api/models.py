@@ -37,7 +37,8 @@ class CandidateProfile(models.Model):
     def __str__ (self):
         return self.user.first_name
 
-    
+    def applied_job(self):
+        return Application.objects.filter(candidate=self)
 
 class CompanyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='employerprofile')
@@ -47,13 +48,17 @@ class CompanyProfile(models.Model):
     location = models.CharField(max_length=200)
     adress =  models.CharField(max_length=300)
     company_name = models.CharField(max_length=200)
+    
     def __str__ (self):
         return self.company_name
+    
+    def posted_job(self):
+        return Job.objects.filter(company=self)
  
 class Job(models.Model):
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
     start_date = models.DateField(default=datetime.date.today)
-    end_date = models.DateField()
+    end_date = models.DateField(default=datetime.date.today)
     title = models.CharField(max_length=200)
     salary = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
@@ -65,7 +70,8 @@ class Job(models.Model):
     skills = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
     
- 
+    def __str__(self) :
+        return self.title
     
     @property
     def job_application(self):
