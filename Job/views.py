@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
+from django.contrib import messages
+
 
 def employersignin_required(fn):
     def wrapper(request,*args,**kwargs):
@@ -35,6 +37,7 @@ class SignUpView(CreateView):
     form_class=RegistrationForm
     template_name="register.html"
     success_url=reverse_lazy("signin")
+
 
 
 class SignInView(FormView):

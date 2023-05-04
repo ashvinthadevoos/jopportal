@@ -15,6 +15,7 @@
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane fade show active ">
                         {%for j in jobs%}
+                        {{request.user.employeeprofile.applied_job}}
                         <div class="job-item-1 job-item p-4 mb-4  p-3 shadow-lg rounded">
                             <div class="row g-4">
                                 <div class="col-sm-12 col-md-8 d-flex align-items-center">

@@ -68,9 +68,9 @@ class JobView(ModelViewSet):
     def get_queryset(self):
         if self.request.user.role == 'employer':
             company=CompanyProfile.objects.get(user=self.request.user)
-            return Job.objects.filter(company=company)
+            return Job.objects.filter(company=company,is_active=True)
         else:
-            return super().get_queryset()
+            return Job.objects.filter(is_active=True)
         
     def destroy(self, request, *args, **kwargs):
         job=self.get_object()
@@ -87,7 +87,7 @@ class JobView(ModelViewSet):
     @action(methods=['get'],detail=True)
     def apply(self,request,*args,**kwargs):
         job=self.get_object()
-        if request.user.role == 'candidate':
+        if request.user.role == 'candidate' and job.is_active==True:
             candidate=CandidateProfile.objects.get(user=request.user)
             Application.objects.create(job=job,candidate=candidate)
             return Response('applied')
@@ -133,7 +133,7 @@ class ApplicationView(ModelViewSet):
         app=self.get_object()
         if request.user.role == 'candidate':
             cand=CandidateProfile.objects.get(user=request.user)
-            if app.candidate == cand:
+            if app.candidate == cand and app.is_active == True:
                 serializer=ApplicationSerializer(app,many=False)
                 return Response(data=serializer.data)
             else:
