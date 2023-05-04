@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 import datetime
-
+from django.core.validators import MinValueValidator
 
 
 class User(AbstractUser):
@@ -19,7 +19,7 @@ class User(AbstractUser):
 class CandidateProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='employeeprofile')
     phone = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="images",null=True)
+    image = models.ImageField(upload_to="images",null=True,blank=True)
     genders=(
             ('Male','Male'),
             ('Female','Female'),
@@ -27,7 +27,7 @@ class CandidateProfile(models.Model):
         )
     gender = models.CharField(max_length=10,choices=genders)
     qualification = models.CharField(max_length=200)
-    resume = models.FileField(upload_to="resumes",null=True)
+    resume = models.FileField(upload_to="resumes",null=True,blank=True)
     location = models.CharField(max_length=200)
     ready_to_relocate = models.BooleanField(default=False)
     skills = models.CharField(max_length=200)
@@ -41,7 +41,7 @@ class CandidateProfile(models.Model):
 class CompanyProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='employerprofile')
     phone = models.CharField(max_length=10)
-    logo = models.ImageField(upload_to="logos", null=True)
+    logo = models.ImageField(upload_to="logos", null=True,blank=True)
     description = models.CharField(max_length=500)
     location = models.CharField(max_length=200)
     adress =  models.CharField(max_length=300)
@@ -54,7 +54,8 @@ class CompanyProfile(models.Model):
 class Job(models.Model):
     company = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
     start_date = models.DateField(default=datetime.date.today)
-    end_date = models.DateField(default=datetime.date.today)
+    currentdate=datetime.date.today()
+    end_date = models.DateField(validators=[MinValueValidator(datetime.date.today)])
     title = models.CharField(max_length=200)
     salary = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)

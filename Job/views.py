@@ -258,6 +258,7 @@ class AppliedJobListView(ListView):
         candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
         return Application.objects.filter(candidate=candidate).exclude(status='cancelled')
     
+@method_decorator(candidatedecs,name='dispatch')
 class PendingJobListView(ListView):
     model=Application
     template_name='appliedjob-list.html'
@@ -266,7 +267,8 @@ class PendingJobListView(ListView):
     def get_queryset(self):
         candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
         return Application.objects.filter(candidate=candidate,status='pending')
-    
+ 
+@method_decorator(candidatedecs,name='dispatch')   
 class RejectedJobListView(ListView):
     model=Application
     template_name='appliedjob-list.html'
@@ -275,7 +277,9 @@ class RejectedJobListView(ListView):
     def get_queryset(self):
         candidate=CandidateProfile.objects.get(user_id=self.request.user.id)
         return Application.objects.filter(candidate=candidate,status='reject')
-    
+
+
+@method_decorator(candidatedecs,name='dispatch')   
 class AcceptedJobListView(ListView):
     model=Application
     template_name='appliedjob-list.html'
