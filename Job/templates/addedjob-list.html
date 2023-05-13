@@ -15,7 +15,7 @@
                             <div class="row g-4">
                                 <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                     <div class="text-start ps-4">
-                                        <h4 class="mb-3">{{j.title}}</h4>
+                                        <a href="{%url 'employerjob-details' j.id%}" style="text-decoration: none;"><h4 class="mb-3">{{j.title}}</h4></a>
                                         <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{j.location}}</span>
                                         <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{j.job_type}}</span>
                                         <span class="text-truncate me-3"><i class="far fa-money-bill-alt text-primary me-2"></i>{{j.salary}}</span>
@@ -23,10 +23,6 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                    <div class="d-inline mb-4">
-                                        <small class="text-truncate me-4"><a href="{%url 'job-delete' j.id%}"><i class="fa-solid fa-trash-can"></i></a></small>
-                                        <small class="text-truncate"><a href="{%url 'job-edit' j.id%}"><i class="fa-solid fa-pen"></i></a></small>
-                                    </div>
                                     <div class="d-flex mb-3">
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
